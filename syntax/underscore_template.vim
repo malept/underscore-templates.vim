@@ -15,6 +15,9 @@ let s:jst_eval_end   = exists("g:uscore_tpl_eval_end")   ? g:uscore_tpl_eval_end
 let s:jst_interpolate_start = exists("g:uscore_tpl_interpolate_start") ? g:uscore_tpl_interpolate_start : '<%='
 let s:jst_interpolate_end   = exists("g:uscore_tpl_interpolate_end")   ? g:uscore_tpl_interpolate_end   : '%>'
 
+let s:jst_escape_start = exists("g:uscore_tpl_escape_start") ? g:uscore_tpl_escape_start : '<%-'
+let s:jst_escape_end   = exists("g:uscore_tpl_escape_end")   ? g:uscore_tpl_escape_end   : '%>'
+
 " Read the HTML syntax to start with
 runtime! syntax/html.vim
 unlet b:current_syntax
@@ -22,6 +25,7 @@ unlet b:current_syntax
 if exists("b:current_syntax")
   finish
 endif
+execute printf("syn region jstBlock containedin=ALL start='%s' keepend end='%s' contains=@htmlJavaScript,htmlCssStyleComment,htmlScriptTag,@htmlPreproc", s:jst_escape_start, s:jst_escape_end)
 execute printf("syn region jstBlock containedin=ALL start='%s' keepend end='%s' contains=@htmlJavaScript,htmlCssStyleComment,htmlScriptTag,@htmlPreproc", s:jst_interpolate_start, s:jst_interpolate_end)
 execute printf("syn region jstBlock containedin=ALL start='%s' keepend end='%s' contains=@htmlJavaScript,htmlCssStyleComment,htmlScriptTag,@htmlPreproc", s:jst_eval_start, s:jst_eval_end)
 
